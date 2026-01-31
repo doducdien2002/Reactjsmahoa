@@ -51,7 +51,7 @@ export default function Header({ onOpenContact = () => {} }) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
         
         /* Glass morphism effect - Purple Theme matching Hero gradient */
         .header-glass {
@@ -81,16 +81,46 @@ export default function Header({ onOpenContact = () => {} }) {
           transform: scale(1.05);
         }
 
+        /* Logo text - GIẢM MỜ, RÕ RÀNG HƠN */
         .logo-text {
           font-family: 'Outfit', sans-serif;
-          font-size: 1.25rem;
-          font-weight: 600;
+          font-size: 1.375rem;
+          font-weight: 700;
           letter-spacing: -0.02em;
           transition: all 0.3s ease;
+          color: white;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-text-highlight {
+          background: linear-gradient(135deg, #fef3c7 0%, #fde68a 30%, #fcd34d 60%, #fbbf24 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-weight: 800;
+          filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.4));
+          background-size: 200% 100%;
+          animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
         }
 
         .logo-container:hover .logo-text {
-          letter-spacing: 0.01em;
+          letter-spacing: 0.03em;
+          text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+          transform: scale(1.03);
+        }
+
+        .logo-container:hover .logo-text-highlight {
+          filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6));
+          animation: shimmer 1.5s ease-in-out infinite;
         }
 
         /* Navigation Links */
@@ -332,8 +362,8 @@ export default function Header({ onOpenContact = () => {} }) {
                 alt="VID Logo" 
                 className="logo-img h-11 w-11 object-contain"
               />
-              <div className="logo-text text-white tracking-tight">
-                MAO <span className="text-purple-200 font-semibold">HOÀN PHÍ</span>
+              <div className="logo-text tracking-tight">
+                MAO <span className="logo-text-highlight">HOÀN PHÍ</span>
               </div>
             </div>
 

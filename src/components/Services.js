@@ -8,20 +8,11 @@ const Services = () => {
   const [selectedSan, setSelectedSan] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
-  const [particles, setParticles] = useState([]);
+  
   const [showVideo, setShowVideo] = useState(false);
 
   // Generate floating particles
-  useEffect(() => {
-    const newParticles = Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      delay: Math.random() * 5,
-      duration: 3 + Math.random() * 4,
-      size: 4 + Math.random() * 8
-    }));
-    setParticles(newParticles);
-  }, []);
+
 
   // Video URLs for each exchange
   const videoData = {
@@ -292,21 +283,7 @@ const Services = () => {
   return (
     <section className="py-12 bg-gradient-to-b from-slate-50 via-blue-50/30 to-white relative overflow-hidden"> 
       {/* Animated Background Particles */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {particles.map((particle) => (
-          <div
-            key={particle.id}
-            className="particle absolute rounded-full bg-gradient-to-br from-blue-400/30 to-indigo-500/30 blur-sm"
-            style={{
-              left: `${particle.left}%`,
-              width: `${particle.size}px`,
-              height: `${particle.size}px`,
-              animationDelay: `${particle.delay}s`,
-              animationDuration: `${particle.duration}s`,
-            }}
-          />
-        ))}
-      </div>
+      
 
       {/* Animated Wave Background */}
       <div className="absolute inset-0 pointer-events-none opacity-10">
