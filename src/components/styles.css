@@ -1,0 +1,119 @@
+/* Overlay: thêm padding viền để popup không dính mép trên mobile */
+.popup-container {
+  position: fixed; inset: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;                     /* NEW */
+  background: rgba(0, 0, 0, 0.55);   /* nhẹ hơn 0.8 cho đỡ gắt */
+  backdrop-filter: blur(2px);
+  animation: fadeInOverlay .25s ease-out;
+}
+
+/* Popup: WIDTH/HEIGHT hợp lý + giảm padding */
+.popup {
+  width: min(680px, 92vw);           /* <=680px, còn lại co theo viewport */
+  max-height: min(80vh, 720px);      /* NEW: không vượt 80% màn hình */
+  background: #f9fafb;
+  border: 1px solid #f97316;
+  border-radius: 16px;               /* giảm radius 20 -> 16 cho gọn */
+  box-shadow: 0 15px 30px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.08);
+  display: flex; flex-direction: column;
+  overflow: hidden;                  /* để header/footer sticky gọn mép */
+  transform: scale(.98);             /* nhẹ nhàng hơn */
+  animation: popupBounce .25s ease-out forwards;
+  padding: 0;                        /* chuyển padding sang content */
+}
+
+/* Header: sticky + padding hợp lý */
+.popup-header {
+  position: sticky; top: 0; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;                /* NEW: nhỏ hơn 15px */
+  background: #fffae5;
+  border-bottom: 1px solid #fde68a;
+  border-radius: 0;                  /* bo theo container */
+}
+.popup-header h2 {
+  margin: 0; font-size: 20px; line-height: 1.2;
+  font-weight: 800; color: #f97316; letter-spacing: .5px;
+  text-shadow: none;                 /* bỏ shadow nặng */
+}
+.popup-header .close-btn {
+  background: transparent; border: 0; width: 36px; height: 36px;
+  border-radius: 999px; color: #f97316; cursor: pointer;
+  display: grid; place-items: center; transition: transform .2s ease;
+}
+.popup-header .close-btn:hover { transform: rotate(180deg) scale(1.05); color: #ff6b00; }
+
+/* Nội dung: cuộn độc lập + padding nội */
+.popup-content {
+  text-align: left !important;
+  padding: 16px;                     /* chuyển padding từ .popup sang đây */
+  background: #fff; border-radius: 0;
+  box-shadow: none;                  /* nhẹ hơn */
+  overflow-y: auto; flex: 1;         /* NEW: chiếm phần còn lại để cuộn */
+  animation: fadeInContent .25s ease-out forwards;
+  transform: translateY(8px);
+}
+.popup-content h2, .popup-content h3 { margin: 10px 0 8px; color:#0f172a; }
+.popup-content h3 { font-size: 16px; font-weight: 700; }
+.popup-content p, .popup-content li { font-size: 14px; line-height: 1.55; color:#334155; }
+.popup-content ul, .popup-content ol { padding-left: 18px; margin: 8px 0 12px; }
+
+/* Nhấn mạnh các khối hướng dẫn – nhưng nhẹ tay hơn */
+.highlight-existing-ref,
+.highlight-existing-ref-1 {
+  font-size: 16px; font-weight: 700;
+  background: #fff7ed; border-left: 3px solid #fb923c;
+  padding: 6px 8px; border-radius: 8px; margin-bottom: 10px;
+  color: #111827; text-shadow: none; transition: background .2s ease;
+}
+.highlight-existing-ref:hover,
+.highlight-existing-ref-1:hover { background: #ffedd5; transform: none; }
+
+/* Footer: sticky dưới + padding nhỏ */
+.popup-footer {
+  position: sticky; bottom: 0; z-index: 1;
+  padding: 12px 16px;
+  background: #fff; border-top: 1px solid #f1f5f9;
+  display: flex; justify-content: flex-end; gap: 8px;
+}
+.popup-footer .btn {
+  background: linear-gradient(90deg, #0583eb, #04f08d);
+  padding: 10px 18px; border-radius: 12px;
+  color: #fff; font-weight: 700; border: 0; cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s;
+  box-shadow: 0 6px 12px rgba(0,0,0,.15);
+}
+.popup-footer .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(0,0,0,.2); }
+
+/* List items: bỏ scale lớn để đỡ “nhảy” – dùng highlight nhẹ */
+.popup-content li {
+  margin-bottom: 10px; font-weight: 500; padding-left: 12px;
+  border-left: 3px solid transparent; transition: background .15s, border-color .15s;
+}
+.popup-content li:hover { border-color: #f97316; background: rgba(249,115,22,.06); }
+
+/* Copy badge: thu gọn */
+.copy-container {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #ffcc00; padding: 8px 12px; border-radius: 8px;
+  font-size: 14px; font-weight: 800; color: #111827;
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+}
+.copy-icon { position: static; padding: 6px; border-radius: 8px; background: #fff; }
+.copy-container:hover .copy-icon { background: #ffe08a; }
+
+/* Animation tinh gọn */
+@keyframes popupBounce {
+  0% { opacity: 0; transform: scale(.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeInContent { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .popup { width: 96vw; max-height: 82vh; }
+  .popup-header h2 { font-size: 18px; }
+  .popup-content { padding: 12px; }
+}
