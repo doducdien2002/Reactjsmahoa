@@ -75,10 +75,10 @@ export default function Contact({ open, onClose }) {
               icon="👥"
               title="Nhóm / Community"
               subtitle="Telegram"
-              main="https://t.me/vidhoanphi"
-              actionHref="https://t.me/vidhoanphi"
+              main="https://t.me/maofasttrading"
+              actionHref="https://t.me/maofasttrading"
               actionLabel="Mở Telegram"
-              onCopy={() => copy("https://t.me/vidhoanphi", "Link Telegram")}
+              onCopy={() => copy("https://t.me/maofasttrading", "Link Telegram")}
             />
 
             {/* Hotline */}
@@ -98,9 +98,9 @@ export default function Contact({ open, onClose }) {
               title="Zalo"
               subtitle="Chat nhanh"
               main="zalo.me/0965427145"
-              actionHref="https://zalo.me/g/xfehbq386"
+              actionHref="https://zalo.me/g/egkfta239"
               actionLabel="Mở Zalo"
-              onCopy={() => copy("https://zalo.me/g/xfehbq386", "Zalo")}
+              onCopy={() => copy("https://zalo.me/g/egkfta239", "Zalo")}
             >
               {/* QR (tuỳ chọn) – đặt ảnh public/img/zalo-qr.png nếu có */}
               <img
@@ -116,10 +116,10 @@ export default function Contact({ open, onClose }) {
               icon="✉️"
               title="Email"
               subtitle="Hỗ trợ"
-              main="vidhoanphi@gmail.com"
-              actionHref="mailto:vidhoanphi@gmail.com"
+              main="maohoanphi@gmail.com"
+              actionHref="mailto:maohoanphi@gmail.com"
               actionLabel="Gửi email"
-              onCopy={() => copy("vidhoanphi@gmail.com", "Email")}
+              onCopy={() => copy("maohoanphi@gmail.com", "Email")}
             />
           </div>
 
@@ -132,7 +132,7 @@ export default function Contact({ open, onClose }) {
               Đóng
             </button>
             <a
-              href="https://t.me/vidhoanphi"
+              href="https://t.me/maofasttrading"
               target="_blank"
               rel="noreferrer"
               style={{ background: 'linear-gradient(to right, #674cdc, #5a3ec9)' }}

@@ -109,7 +109,7 @@ const ContactWidget = () => {
 
             {/* Zalo */}
             <a
-              href="https://zalo.me/g/xfehbq386"
+              href="https://zalo.me/g/egkfta239"
               target="_blank"
               rel="noopener noreferrer"
               className="contact-link contact-item group p-4 rounded-full shadow-lg hover:shadow-2xl"
@@ -120,7 +120,7 @@ const ContactWidget = () => {
 
             {/* Telegram */}
             <a
-              href="https://t.me/vidhoanphi"
+              href="https://t.me/maofasttrading"
               target="_blank"
               rel="noopener noreferrer"
               className="contact-link contact-item group p-4 rounded-full shadow-lg hover:shadow-2xl"
