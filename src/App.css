@@ -23,11 +23,16 @@ body {
   font-family: 'Inter', Arial, sans-serif;
   line-height: 1.6;
   width: 100%;
-  overflow-x: hidden; /* Ngăn tràn ngang */
+  overflow-x: hidden; /* Chỉ ẩn scroll ngang */
   margin: 0;
   padding: 0;
   position: relative;
-  min-height: 100vh; /* Đảm bảo body chiếm đủ chiều cao màn hình */
+  min-height: 100vh;
+}
+
+html {
+  overflow-x: hidden; /* Chỉ ẩn scroll ngang */
+  scroll-behavior: smooth;
 }
 
 /* Toàn bộ nền trang */

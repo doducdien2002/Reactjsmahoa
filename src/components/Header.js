@@ -16,15 +16,31 @@ export default function Header({ onOpenContact = () => {} }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const goNews = (e) => {
-    e.preventDefault();
-    navigate("/", { state: { scrollTo: "news" } });
+  // Hàm cuộn đến section hoặc reload trang
+  const handleNavClick = (sectionId) => {
+    if (sectionId === "home") {
+      // Nếu click "Trang Chủ" - reload về đầu trang
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Cuộn đến section tương ứng
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const headerOffset = 80; // Chiều cao của header
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
     setIsMenuOpen(false);
   };
 
-  const handleNavClick = (path) => {
-    navigate(path);
-    setIsMenuOpen(false);
+  const goNews = (e) => {
+    e.preventDefault();
+    handleNavClick("news");
   };
 
   const handleContactClick = () => {
@@ -308,7 +324,7 @@ export default function Header({ onOpenContact = () => {} }) {
             
             {/* Logo Section */}
             <div 
-              onClick={() => handleNavClick("/")}
+              onClick={() => handleNavClick("home")}
               className="logo-container flex items-center gap-3 cursor-pointer"
             >
               <img 
@@ -324,14 +340,14 @@ export default function Header({ onOpenContact = () => {} }) {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-4 lg:gap-6">
               <button
-                onClick={() => handleNavClick("/")}
+                onClick={() => handleNavClick("home")}
                 className="nav-link text-gray-100"
               >
                 Trang Chủ
               </button>
               
               <button
-                onClick={() => handleNavClick("/trading-floor")}
+                onClick={() => handleNavClick("services")}
                 className="nav-link text-gray-100"
               >
                 Sàn Giao Dịch
@@ -375,14 +391,14 @@ export default function Header({ onOpenContact = () => {} }) {
           <div className="mobile-menu md:hidden border-t border-white/10 backdrop-blur-xl">
             <nav className="px-4 py-6 space-y-2">
               <button
-                onClick={() => handleNavClick("/")}
+                onClick={() => handleNavClick("home")}
                 className="mobile-nav-link w-full text-left px-4 py-3.5 text-gray-100 rounded-lg"
               >
                 Trang Chủ
               </button>
               
               <button
-                onClick={() => handleNavClick("/trading-floor")}
+                onClick={() => handleNavClick("services")}
                 className="mobile-nav-link w-full text-left px-4 py-3.5 text-gray-100 rounded-lg"
               >
                 Sàn Giao Dịch

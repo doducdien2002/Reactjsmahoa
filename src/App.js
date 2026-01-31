@@ -39,13 +39,21 @@ const Home = () => {
 
   return (
     <>
-      <Hero />
-      <Services />
-      <Cashback />
+      <section id="home">
+        <Hero />
+      </section>
+      <section id="services">
+        <Services />
+      </section>
+      <section id="cashback">
+        <Cashback />
+      </section>
       <section id="news">
         <News />
       </section>
-      <Testimonials />
+      <section id="testimonials">
+        <Testimonials />
+      </section>
     </>
   );
 };
