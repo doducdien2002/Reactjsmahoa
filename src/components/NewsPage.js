@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./NewsPage.css";
 import newsImg from '../assets/anhtintuc.png';
@@ -8,6 +8,7 @@ import newsATX from '../assets/atx.png';
 const newsList = [
   {
     id: 1,
+    slug: "hoan-50-phi-giao-dich-san-bingx",
     title: "HOÀN 50% PHÍ GIAO DỊCH SÀN BINGX",
     description:
       "Sàn BingX mang đến chương trình hoàn 50% phí giao dịch cực hấp dẫn, giúp trader tiết kiệm tối đa chi phí.",
@@ -43,6 +44,7 @@ const newsList = [
   },
  {
   id: 2,
+  slug: "hoan-phi-giao-dich-la-gi",
   title: "HOÀN PHÍ GIAO DỊCH LÀ GÌ?",
   description:
     "Tìm hiểu khái niệm hoàn phí giao dịch trong crypto, cơ chế hoạt động, lợi ích và cách nhận ưu đãi hoàn phí để tối ưu chi phí và lợi nhuận.",
@@ -130,6 +132,7 @@ const newsList = [
 
   {
     id: 3,
+    slug: "top-cac-san-ho-tro-hoan-phi-2025",
     title: "TOP CÁC SÀN HỖ TRỞ HOÀN PHÍ GIAO DỊCH 2025",
     description:
       "Tổng hợp các sàn giao dịch hỗ trợ hoàn phí tốt nhất năm 2025 giúp bạn tối ưu lợi nhuận khi trade.",
@@ -151,6 +154,7 @@ const newsList = [
   },
   {
     id: 4,
+    slug: "cap-von-1m2-tai-khoan-moi-atx",
     title: "CẤP VỐN 1M2 TÀI KHOẢN MỚI",
     description:
       "ATX là sàn giao dịch tại Việt Nam ,giao dịch mượt mà dễ tiếp cận cho người mới.",
@@ -189,7 +193,7 @@ const newsList = [
   },
 ];
 
-// Component cho comment với tính năng like và cảm xúc - ĐÃ CHỈNH SỬA
+// Component cho comment
 const Comment = ({ comment }) => {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(comment.likes);
@@ -227,7 +231,6 @@ const Comment = ({ comment }) => {
 
   return (
     <div className="border border-slate-200 rounded-2xl p-5 shadow-sm bg-white hover:shadow-lg hover:border-blue-200 transition-all duration-300">
-      {/* Header với avatar và thông tin - CHỈNH LẠI ALIGNMENT */}
       <div className="flex items-start gap-3.5 mb-4">
         <div className="flex-shrink-0">
           <img
@@ -237,18 +240,15 @@ const Comment = ({ comment }) => {
           />
         </div>
         <div className="flex-1 min-w-0">
-          {/* Căn chỉnh tên và ngày theo chiều ngang */}
           <div className="flex items-center gap-2 mb-1.5">
             <p className="font-semibold text-slate-800 text-[15px]">{comment.name}</p>
             <span className="text-slate-300">•</span>
             <p className="text-xs text-slate-500">{comment.date}</p>
           </div>
-          {/* Nội dung comment */}
           <p className="text-slate-700 leading-relaxed text-[15px]">{comment.text}</p>
         </div>
       </div>
 
-      {/* Like và Reactions - CĂNG THEO ML CỦA AVATAR */}
       <div className="flex items-center gap-4 ml-[50px] relative">
         <div 
           className="relative"
@@ -271,7 +271,6 @@ const Comment = ({ comment }) => {
             <span className="font-semibold">{likeCount}</span>
           </button>
 
-          {/* Reactions popup */}
           {showReactions && (
             <div className="absolute bottom-full left-0 mb-2 bg-white rounded-full shadow-xl border border-slate-200 px-2 py-2 flex gap-1 animate-fade-in z-10">
               {reactions.map((reaction) => (
@@ -298,28 +297,22 @@ const Comment = ({ comment }) => {
 
 const NewsPage = () => {
   const { id } = useParams();
-  const newsItem = newsList.find((item) => item.id.toString() === id);
+  
+  // Tìm bài viết theo slug hoặc id
+  const newsItem = newsList.find((item) => 
+    item.slug === id || item.id.toString() === id
+  );
   
   // State cho zoom ảnh
   const [zoomedImage, setZoomedImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [currentSlide, setCurrentSlide] = useState(0);
   
-  // Danh sách ảnh hoa hồng - CHỈ 3 ảnh
+  // Danh sách ảnh hoa hồng
   const commissionImages = [
     { src: '/hh1.jpg', title: 'Hoa Hồng Cấp 1', desc: 'Lên đến 40% hoa hồng' },
     { src: '/hh2.jpg', title: 'Hoa Hồng Cấp 2', desc: 'Lên đến 25% hoa hồng' },
     { src: '/hh3.jpg', title: 'Hoa Hồng Đặc Biệt', desc: 'Bonus thêm 10%' }
   ];
-  
-  // Auto slide carousel
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % commissionImages.length);
-    }, 3000);
-    
-    return () => clearInterval(interval);
-  }, []);
   
   const openImageGallery = (index) => {
     setCurrentImageIndex(index);
@@ -344,11 +337,13 @@ const NewsPage = () => {
     setZoomedImage(commissionImages[newIndex].src);
   };
   
-  const handleKeyPress = (e) => {
+  // useCallback để tránh warning dependency
+  const handleKeyPress = useCallback((e) => {
     if (e.key === 'ArrowRight') nextImage();
     if (e.key === 'ArrowLeft') prevImage();
     if (e.key === 'Escape') closeImageGallery();
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentImageIndex]);
 
   useEffect(() => {
     if (zoomedImage) {
@@ -357,7 +352,7 @@ const NewsPage = () => {
         window.removeEventListener('keydown', handleKeyPress);
       };
     }
-  }, [zoomedImage, currentImageIndex]);
+  }, [zoomedImage, handleKeyPress]);
 
   // Dữ liệu comment mẫu
   const [comments] = useState([
@@ -487,13 +482,12 @@ const NewsPage = () => {
           className="rounded-xl shadow-md mb-6 w-full object-cover"
         />
 
-        {/* Banner Hoa Hồng - CHỈNH TÔNG MÀU */}
+        {/* Banner Hoa Hồng */}
         <div className="mt-6 mb-6 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-2xl p-6 border-2 border-blue-200 shadow-md">
           <h3 className="text-2xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
             🌹 Phí Giao Dịch Hoàn Lại 🌹
           </h3>
           
-          {/* Carousel Container */}
           <div className="relative overflow-hidden rounded-xl">
             <div 
               className="flex gap-4 transition-transform duration-1000 ease-linear"
@@ -548,7 +542,7 @@ const NewsPage = () => {
           dangerouslySetInnerHTML={{ __html: newsItem.content }}
         />
 
-        {/* Tags - CHỈNH MÀU */}
+        {/* Tags */}
         <div className="mt-8 flex flex-wrap gap-2">
           {["#Crypto", "#HoànPhí", "#Blog"].map((tag) => (
             <span
@@ -560,7 +554,7 @@ const NewsPage = () => {
           ))}
         </div>
 
-        {/* Bình luận - CHỈNH MÀU */}
+        {/* Bình luận */}
         <div className="mt-10 border-t border-slate-200 pt-8">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-slate-800">
             💬 Bình luận <span className="text-sm font-normal text-slate-500">({comments.length})</span>
@@ -587,7 +581,6 @@ const NewsPage = () => {
             </div>
           </div>
 
-          {/* Danh sách comments */}
           <div className="space-y-4">
             {comments.map((comment) => (
               <Comment key={comment.id} comment={comment} />
@@ -596,9 +589,8 @@ const NewsPage = () => {
         </div>
       </div>
 
-      {/* Sidebar - CHỈNH MÀU */}
+      {/* Sidebar */}
       <div className="space-y-6">
-        {/* Tìm kiếm */}
         <div className="p-5 border border-slate-200 rounded-xl shadow-sm bg-white hover:shadow-md transition-shadow duration-200">
           <div className="relative">
             <input
@@ -610,14 +602,13 @@ const NewsPage = () => {
           </div>
         </div>
 
-        {/* Tin mới nhất */}
         <div className="p-5 border border-slate-200 rounded-xl shadow-sm bg-white hover:shadow-md transition-shadow duration-200">
           <h3 className="text-lg font-semibold mb-4 border-b border-slate-200 pb-3 text-slate-800">🆕 Tin mới nhất</h3>
           <ul className="space-y-3">
             {newsList.slice(0, 3).map((item) => (
               <li key={item.id}>
                 <Link
-                  to={`/news/${item.id}`}
+                  to={`/news/${item.slug}`}
                   className="flex items-center gap-3 hover:bg-slate-50 rounded-lg p-2.5 transition-all duration-200 group"
                 >
                   <img
@@ -632,14 +623,13 @@ const NewsPage = () => {
           </ul>
         </div>
 
-        {/* Tin nổi bật */}
         <div className="p-5 border border-slate-200 rounded-xl shadow-sm bg-white hover:shadow-md transition-shadow duration-200">
           <h3 className="text-lg font-semibold mb-4 border-b border-slate-200 pb-3 text-slate-800">🔥 Tin nổi bật</h3>
           <ul className="space-y-3">
             {newsList.slice(-2).map((item) => (
               <li key={item.id}>
                 <Link
-                  to={`/news/${item.id}`}
+                  to={`/news/${item.slug}`}
                   className="flex items-center gap-3 hover:bg-slate-50 rounded-lg p-2.5 transition-all duration-200 group"
                 >
                   <img

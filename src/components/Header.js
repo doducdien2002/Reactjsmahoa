@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
 import logo from '../assets/logo.png';
 
 export default function Header({ onOpenContact = () => {} }) {
-  const navigate = useNavigate();
+ 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
