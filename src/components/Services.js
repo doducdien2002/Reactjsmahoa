@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Copy, X, Sparkles, TrendingUp, Zap } from "lucide-react";
+import { Copy, X, Sparkles, TrendingUp, Zap, Video } from "lucide-react";
 import toast from "react-hot-toast";
 import './styles.css';
 
@@ -9,6 +9,7 @@ const Services = () => {
   const [showMore, setShowMore] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [particles, setParticles] = useState([]);
+  const [showVideo, setShowVideo] = useState(false);
 
   // Generate floating particles
   useEffect(() => {
@@ -22,10 +23,23 @@ const Services = () => {
     setParticles(newParticles);
   }, []);
 
+  // Video URLs for each exchange
+  const videoData = {
+    ATX: "https://www.youtube.com/embed/dQw4w9WgXcQ", // Thay bằng link video thật
+    BINGX: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    BINANCE: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    OKX: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    BITUNIX: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    MEXC: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    EXNESS: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    TICKMILL: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    LITEFOREX: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  };
+
   const huongDanData = {
-    BINGX: `
-      <p><strong>Hoàn phí 50%</strong></p>
-      <p><b>Mã giới thiệu:</b> KSFN28VY</p>
+    ATX: `
+      <p><strong>Hoàn phí 20%</strong></p>
+      <p><b>Mã giới thiệu:</b>maohoanphi</p>
       <h3 class="highlight-existing-ref-1">1️⃣ Đăng ký tài khoản mới</h3>
       <ol>
         <li>1: Bấm "Đăng ký ngay" hoặc nhập mã giới thiệu thủ công</li>
@@ -40,14 +54,12 @@ const Services = () => {
       </ol>
       <h3 class="highlight-existing-ref-1">💰 Cơ chế hoàn phí</h3>
       <ul>
-        <li>Hoàn 45% phí hằng ngày</li>
-        <li>Hoàn thêm 5% cuối tháng</li>
+        <li>Hoàn 20% phí hằng ngày</li>
       </ul>
     `,
-    BITGET: `
-      <h2>Bitget</h2>
+    BINGX: `
       <p><strong>Hoàn phí 50%</strong></p>
-      <p><b>Mã giới thiệu:</b> VIDHOANPHI</p>
+      <p><b>Mã giới thiệu:</b>YFTFX3BC</p>
       <h3 class="highlight-existing-ref-1">1️⃣ Đăng ký tài khoản mới</h3>
       <ol>
         <li>1: Bấm "Đăng ký ngay" hoặc nhập mã giới thiệu thủ công</li>
@@ -110,28 +122,6 @@ const Services = () => {
         <li>Hoàn thêm 5% cuối tháng</li>
       </ul>
     `,
-    BYBIT: `
-      <h2>BYBIT</h2>
-      <p><strong>Hoàn phí 50%</strong></p>
-      <p><b>Mã giới thiệu:</b> VIDHOANPHI</p>
-      <h3 class="highlight-existing-ref-1">1️⃣ Đăng ký tài khoản mới</h3>
-      <ol>
-        <li>1: Bấm "Đăng ký ngay" hoặc nhập mã giới thiệu thủ công</li>
-        <li>2: Đăng ký bằng email hoặc số điện thoại</li>
-        <li>3: Xác thực KYC và giao dịch bình thường</li>
-      </ol>
-     <h3 class="highlight-existing-ref">2️⃣ Đã có tài khoản REF khác</h3>
-       <ol>
-        <li>1: Đăng ký tài khoản mới bằng email hoặc số điện thoại mới qua mã giới thiệu </li>
-        <li>2: Thực hiện xác thực KYC bằng giấy tờ khác loại với loại đã dùng ở tài khoản cũ</li>
-        <li>3: Chờ phê duyệt KYC rồi nạp tiền và giao dịch như bình thường</li>
-      </ol>
-      <h3 class="highlight-existing-ref-1">💰 Cơ chế hoàn phí</h3>
-      <ul>
-        <li>Hoàn 45% phí hằng ngày</li>
-        <li>Hoàn thêm 5% cuối tháng</li>
-      </ul>
-    `,
     BITUNIX: `
       <h2>BITUNIX</h2>
       <p><strong>Hoàn phí 50%</strong></p>
@@ -157,7 +147,7 @@ const Services = () => {
     MEXC: `
       <h2>MEXC</h2>
       <p><strong>Hoàn phí 50%</strong></p>
-      <p><b>Mã giới thiệu:</b> VIDHOANPHI</p>
+      <p><b>Mã giới thiệu:</b> Maohoanphi</p>
       <h3 class="highlight-existing-ref-1">1️⃣ Đăng ký tài khoản mới</h3>
       <ol>
         <li>1: Bấm "Đăng ký ngay" hoặc nhập mã giới thiệu thủ công</li>
@@ -179,7 +169,7 @@ const Services = () => {
     EXNESS: `
       <h2>EXNESS</h2>
       <p><strong>Hoàn phí 100%</strong></p>
-      <p><b>Mã giới thiệu:</b> VIDHOANPHI</p>
+      <p><b>Mã giới thiệu:</b> li725sgw4</p>
       <h3 class="highlight-existing-ref-1">1️⃣ Đăng ký tài khoản mới</h3>
       <ol>
         <li>1: Bấm "Đăng ký ngay" hoặc nhập mã giới thiệu thủ công</li>
@@ -232,17 +222,18 @@ const Services = () => {
 
   const cryptoItems = [
     {
+      title: "ATX",
+      cashback: "25",
+      code: "maohoanphi",
+      imgSrc: "https://cashback.exchange/image/exchanges/atx.png",
+      link: "https://atxs.io/r/maohoanphi", 
+    },
+    {
       title: "BINGX",
       cashback: "50",
       code: "KSFN28VY",
       imgSrc: "https://w.ladicdn.com/s500x500/67dbe0216346bb0012ce3b79/bingx-20250426193224-ombgf.png",
-      link: "https://bingx.com/invite/KSFN28VY/", 
-    },
-    {
-      title: "BITGET",
-      cashback: "50",
-      code: "VIDHOANPHI",
-      imgSrc: "https://www.bitget.com/favicon.ico",
+      link: "https://bingxdao.com/invite/YFTFX3BC/", 
     },
     {
       title: "BINANCE",
@@ -258,12 +249,6 @@ const Services = () => {
       link: "https://www.okx.com/join/VIDHOANPHI",
     },
     {
-      title: "BYBIT",
-      cashback: "40",
-      code: "VIDHOANPHI",
-      imgSrc: "https://storage.googleapis.com/hostinger-horizons-assets-prod/67304ce5-101c-4405-85e6-f9fde8774dbc/9920f86cbed47f1368ae93dbf38c7917.png",
-    },
-    {
       title: "BITUNIX",
       cashback: "40",
       code: "VIDHOANPHI",
@@ -272,9 +257,9 @@ const Services = () => {
     {
       title: "MEXC",
       cashback: "40",
-      code: "mexc-VID",
+      code: "mexc-Maohoanphi",
       imgSrc: "https://storage.googleapis.com/hostinger-horizons-assets-prod/67304ce5-101c-4405-85e6-f9fde8774dbc/ab59a24e551de4d38fbbb5bb557601d6.png",
-      link: "https://www.mexc.com/vi-VN/acquisition/custom-sign-up?shareCode=mexc-VID", 
+      link: "https://www.mexc.com/vi-VN/acquisition/custom-sign-up?shareCode=mexc-Maohoanphi", 
     },
   ];
 
@@ -282,20 +267,9 @@ const Services = () => {
     {
       title: "EXNESS",
       cashback: "100",
-      code: "VIDHOANPHI",
+      code: "li725sgw4u",
       imgSrc: "https://storage.googleapis.com/hostinger-horizons-assets-prod/67304ce5-101c-4405-85e6-f9fde8774dbc/1c7aea78a2e788fc8238dae8717c1997.png",
-    },
-    {
-      title: "TICKMILL",
-      cashback: "80",
-      code: "VIDHOANPHI",
-      imgSrc: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Tickmill_logo.svg/2560px-Tickmill_logo.svg.png",
-    },
-    {
-      title: "LITEFOREX",
-      cashback: "75",
-      code: "VIDHOANPHI",
-      imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj6KqYWLHQN2YPZpWQZGJYdVxPKm2QNRK0Bg&s",
+      link: "https://one.exnessonelink.com/a/li725sgw4u",
     },
   ];
 
@@ -513,7 +487,7 @@ const Services = () => {
       </div>
 
       {/* Modal Popup */}
-      {selectedSan && (
+      {selectedSan && !showVideo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
           {/* Animated Candles Background */}
           <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
@@ -571,8 +545,16 @@ const Services = () => {
               />
             </div>
 
-            {/* Footer */}
-            <div className="flex justify-end px-6 py-4 border-t-2 bg-slate-50">
+            {/* Footer with Video Button */}
+            <div className="flex justify-between gap-3 px-6 py-4 border-t-2 bg-slate-50">
+              <button
+                type="button"
+                className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg flex items-center gap-2"
+                onClick={() => setShowVideo(true)}
+              >
+                <Video size={18} />
+                Video hướng dẫn
+              </button>
               <button
                 type="button"
                 className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-blue-400 to-indigo-500 text-white hover:from-blue-500 hover:to-indigo-600 transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg"
@@ -714,6 +696,53 @@ const Services = () => {
               background: #f1f5f9;
             }
           `}</style>
+        </div>
+      )}
+
+      {/* Video Modal */}
+      {showVideo && selectedSan && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="w-full max-w-4xl mx-4 bg-black rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-slideUp border-2 border-slate-700 relative z-10">
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b-2 border-slate-700 bg-slate-900 text-white">
+              <div className="flex items-center gap-3">
+                <Video className="w-6 h-6 text-red-500" />
+                <h2 className="text-lg font-bold">
+                  Video hướng dẫn {selectedSan}
+                </h2>
+              </div>
+              <button
+                className="p-2 rounded-full hover:bg-slate-800 transition-all active:scale-95 duration-300"
+                onClick={() => setShowVideo(false)}
+                aria-label="Đóng video"
+              >
+                <X size={24} className="text-white" />
+              </button>
+            </div>
+
+            {/* Video Container */}
+            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+              <iframe
+                className="absolute top-0 left-0 w-full h-full"
+                src={videoData[selectedSan]}
+                title={`Video hướng dẫn ${selectedSan}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-end px-6 py-4 border-t-2 border-slate-700 bg-slate-900">
+              <button
+                type="button"
+                className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-blue-400 to-indigo-500 text-white hover:from-blue-500 hover:to-indigo-600 transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg"
+                onClick={() => setShowVideo(false)}
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </section>
