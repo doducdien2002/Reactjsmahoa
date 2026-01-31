@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaTiktok, FaYoutube, FaTelegramPlane } from "react-icons/fa";
+import { FaYoutube, FaTelegramPlane } from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
 import { IoClose, IoChatbubbleEllipses } from "react-icons/io5";
 
@@ -131,7 +131,7 @@ const ContactWidget = () => {
 
             {/* YouTube */}
             <a
-              href="#"
+              href="https://www.youtube.com/@hoanphi"
               target="_blank"
               rel="noopener noreferrer"
               className="contact-link contact-item group p-4 rounded-full shadow-lg hover:shadow-2xl"

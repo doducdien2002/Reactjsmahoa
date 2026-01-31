@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, Shield, Zap, DollarSign, ChevronRight, Sparkles, ArrowRight, CheckCircle2, Clock, Target, Gift, Users, BarChart3 } from 'lucide-react';
+import { TrendingUp, Shield, Zap, Sparkles, CheckCircle2, Clock, Target, Gift } from 'lucide-react';
 
 const Cashback = () => (
   <div className="section cashback relative overflow-hidden">

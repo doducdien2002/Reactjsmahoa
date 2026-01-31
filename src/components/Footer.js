@@ -57,15 +57,15 @@ const Footer = () => (
           </h3>
           <ul className="space-y-3">
             {[
-              { name: 'Hoàn phí BingX', icon: '💰' },
-              { name: 'Hoàn phí Bybit', icon: '💵' },
-              { name: 'Hoàn phí MEXC', icon: '💸' },
-              { name: 'Cấp vốn ATX', icon: '🎯' },
-              { name: 'Khóa học Crypto', icon: '📚' },
+              { name: 'Hoàn phí BingX', icon: '💰', href: '#bingx' },
+              { name: 'Hoàn phí Bybit', icon: '💵', href: '#bybit' },
+              { name: 'Hoàn phí MEXC', icon: '💸', href: '#mexc' },
+              { name: 'Cấp vốn ATX', icon: '🎯', href: '#atx' },
+              { name: 'Khóa học Crypto', icon: '📚', href: '#courses' },
             ].map((item, index) => (
               <li key={index}>
                 <a
-                  href="#"
+                  href={item.href}
                   className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors group"
                 >
                   <span className="text-lg group-hover:scale-125 transition-transform">
