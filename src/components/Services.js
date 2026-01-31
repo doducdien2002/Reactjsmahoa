@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { Copy, X, Sparkles, TrendingUp, Zap, Video } from "lucide-react";
 import toast from "react-hot-toast";
 import './styles.css';
