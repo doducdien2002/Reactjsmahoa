@@ -229,20 +229,20 @@ const Services = () => {
     {
       title: "BINANCE",
       cashback: "40",
-      code: "VIDHOANPHI",
+      code: "maohoanphi",
       imgSrc: "https://w.ladicdn.com/s450x450/67dbe0216346bb0012ce3b79/binance-20250427064738-n26nc.png",
     },
     {
       title: "OKX",
       cashback: "40",
-      code: "VIDHOANPHI",
+      code: "maohoanphi",
       imgSrc: "https://storage.googleapis.com/hostinger-horizons-assets-prod/67304ce5-101c-4405-85e6-f9fde8774dbc/c973b6f4a4b92721f64c11f7aa87d18f.png",
       link: "https://www.okx.com/join/VIDHOANPHI",
     },
     {
       title: "BITUNIX",
       cashback: "40",
-      code: "VIDHOANPHI",
+      code: "maohoanphi",
       imgSrc: "https://storage.googleapis.com/hostinger-horizons-assets-prod/67304ce5-101c-4405-85e6-f9fde8774dbc/c4ca09fd7478b8af8fb0fcee7593d63d.png",
     },
     {
@@ -260,6 +260,20 @@ const Services = () => {
       cashback: "100",
       code: "li725sgw4u",
       imgSrc: "https://storage.googleapis.com/hostinger-horizons-assets-prod/67304ce5-101c-4405-85e6-f9fde8774dbc/1c7aea78a2e788fc8238dae8717c1997.png",
+      link: "https://one.exnessonelink.com/a/li725sgw4u",
+    },
+    {
+      title: "Vantage",
+      cashback: "100",
+      code: "maohoanphi",
+      imgSrc: "https://cashback.exchange/image/exchanges/vantage.png",
+      link: "https://one.exnessonelink.com/a/li725sgw4u",
+    },
+     {
+      title: "XM",
+      cashback: "100",
+      code: "maohoanphi",
+      imgSrc: "https://cashback.exchange/image/exchanges/xm.png",
       link: "https://one.exnessonelink.com/a/li725sgw4u",
     },
   ];
