@@ -145,7 +145,7 @@ const Footer = () => (
     <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
 
     {/* Custom Styles */}
-    <style jsx>{`
+    <style>{`
       @keyframes blob {
         0%, 100% {
           transform: translate(0, 0) scale(1);

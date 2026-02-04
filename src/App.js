@@ -6,6 +6,8 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import "./components/NewsPopup.css";
+import NewsPopup from "./components/NewsPopup";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -65,6 +67,7 @@ const MainLayout = ({ children }) => {
   return (
     <>
       <Header onOpenContact={() => setOpenContact(true)} />
+        <NewsPopup />  
       {children}
       <Footer />
       <ContactWidget />

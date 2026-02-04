@@ -6,6 +6,29 @@ export default function Header({ onOpenContact = () => {} }) {
  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [setActiveSubmenu] = useState(null);
+  
+  // Mobile submenu states
+  const [mobileForexOpen, setMobileForexOpen] = useState(false);
+  const [mobileCryptoOpen, setMobileCryptoOpen] = useState(false);
+
+  // Danh sách các sàn
+  const forexPlatforms = [
+    { name: 'Exness', icon: '🏆' },
+    { name: 'XM', icon: '⭐' },
+    { name: 'IC Markets', icon: '📊' },
+    { name: 'FBS', icon: '💎' },
+    { name: 'Tickmill', icon: '🎯' }
+  ];
+
+  const cryptoPlatforms = [
+    { name: 'Binance', icon: '🟡' },
+    { name: 'Bybit', icon: '🔷' },
+    { name: 'OKX', icon: '⚫' },
+    { name: 'Gate.io', icon: '🔵' },
+    { name: 'Bitget', icon: '🟢' }
+  ];
 
   // Theo dõi scroll để thêm effect
   useEffect(() => {
@@ -19,13 +42,11 @@ export default function Header({ onOpenContact = () => {} }) {
   // Hàm cuộn đến section hoặc reload trang
   const handleNavClick = (sectionId) => {
     if (sectionId === "home") {
-      // Nếu click "Trang Chủ" - reload về đầu trang
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      // Cuộn đến section tương ứng
       const element = document.getElementById(sectionId);
       if (element) {
-        const headerOffset = 80; // Chiều cao của header
+        const headerOffset = 80;
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
         
@@ -36,6 +57,8 @@ export default function Header({ onOpenContact = () => {} }) {
       }
     }
     setIsMenuOpen(false);
+    setIsServicesOpen(false);
+    setActiveSubmenu(null);
   };
 
   const goNews = (e) => {
@@ -45,6 +68,13 @@ export default function Header({ onOpenContact = () => {} }) {
 
   const handleContactClick = () => {
     onOpenContact();
+    setIsMenuOpen(false);
+  };
+
+  const handlePlatformClick = (type, platform) => {
+    console.log(`Navigate to ${type} - ${platform}`);
+    setIsServicesOpen(false);
+    setActiveSubmenu(null);
     setIsMenuOpen(false);
   };
 
@@ -65,6 +95,7 @@ export default function Header({ onOpenContact = () => {} }) {
         .logo-container {
           position: relative;
           transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
         }
 
         .logo-container:hover {
@@ -81,7 +112,7 @@ export default function Header({ onOpenContact = () => {} }) {
           transform: scale(1.05);
         }
 
-        /* Logo text - GIẢM MỜ, RÕ RÀNG HƠN */
+        /* Logo text */
         .logo-text {
           font-family: 'Outfit', sans-serif;
           font-size: 1.375rem;
@@ -137,6 +168,7 @@ export default function Header({ onOpenContact = () => {} }) {
           outline: none !important;
           padding: 0.625rem 0.75rem;
           border-radius: 0.5rem;
+          cursor: pointer;
         }
 
         .nav-link:hover {
@@ -149,7 +181,180 @@ export default function Header({ onOpenContact = () => {} }) {
           transform: translateY(0);
         }
 
-        /* Contact Button - Purple #674cdc */
+        /* Dropdown Container - CRITICAL FOR HOVER */
+        .services-dropdown {
+          position: relative;
+        }
+
+        /* Hover trigger - show dropdown on hover */
+        .services-dropdown:hover .dropdown-menu {
+          opacity: 1;
+          visibility: visible;
+          transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-toggle {
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+        }
+
+        .dropdown-arrow {
+          transition: transform 0.3s ease;
+          font-size: 0.75rem;
+        }
+
+        .dropdown-arrow.open {
+          transform: rotate(180deg);
+        }
+
+        /* Level 1 Dropdown Menu (Forex/Crypto) */
+        .dropdown-menu {
+          position: absolute;
+          top: calc(100% + 0.75rem);
+          left: 50%;
+          transform: translateX(-50%) translateY(-8px);
+          min-width: 200px;
+          background: white;
+          border-radius: 1rem;
+          box-shadow: 0 10px 40px rgba(103, 76, 220, 0.2), 0 0 0 1px rgba(103, 76, 220, 0.1);
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 100;
+          overflow: visible;
+        }
+
+        .dropdown-menu::before {
+          content: '';
+          position: absolute;
+          top: -6px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 12px;
+          height: 12px;
+          background: white;
+          border-radius: 2px;
+          rotate: 45deg;
+          box-shadow: -2px -2px 4px rgba(103, 76, 220, 0.1);
+        }
+
+        /* Dropdown item wrapper for hover trigger */
+        .dropdown-item-wrapper {
+          position: relative;
+        }
+
+        /* Show submenu on hover */
+        .dropdown-item-wrapper:hover .submenu {
+          opacity: 1;
+          visibility: visible;
+          transform: translateX(0);
+        }
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.75rem;
+          padding: 0.875rem 1.25rem;
+          font-family: 'Inter', sans-serif;
+          font-weight: 500;
+          font-size: 0.9375rem;
+          color: #374151;
+          transition: all 0.25s ease;
+          cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+          background: linear-gradient(135deg, rgba(103, 76, 220, 0.08) 0%, rgba(90, 62, 201, 0.08) 100%);
+          color: #674cdc;
+          padding-left: 1.5rem;
+        }
+
+        .dropdown-item-icon {
+          font-size: 1.25rem;
+          transition: transform 0.25s ease;
+        }
+
+        .dropdown-item:hover .dropdown-item-icon {
+          transform: scale(1.15);
+        }
+
+        .dropdown-item-content {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .dropdown-item-arrow {
+          font-size: 0.75rem;
+          color: #9ca3af;
+          transition: all 0.25s ease;
+        }
+
+        .dropdown-item:hover .dropdown-item-arrow {
+          color: #674cdc;
+          transform: translateX(2px);
+        }
+
+        /* Level 2 Submenu (Platforms) */
+        .submenu {
+          position: absolute;
+          left: calc(100% + 0.5rem);
+          top: -0.5rem;
+          min-width: 180px;
+          background: white;
+          border-radius: 1rem;
+          box-shadow: 0 10px 40px rgba(103, 76, 220, 0.2), 0 0 0 1px rgba(103, 76, 220, 0.1);
+          opacity: 0;
+          visibility: hidden;
+          transform: translateX(-10px);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 110;
+          overflow: hidden;
+        }
+
+        .submenu-item {
+          display: flex;
+          align-items: center;
+          gap: 0.625rem;
+          padding: 0.75rem 1rem;
+          font-family: 'Inter', sans-serif;
+          font-weight: 500;
+          font-size: 0.875rem;
+          color: #4b5563;
+          transition: all 0.2s ease;
+          cursor: pointer;
+          border: none;
+          background: transparent;
+          width: 100%;
+          text-align: left;
+          border-left: 2px solid transparent;
+        }
+
+        .submenu-item:hover {
+          background: linear-gradient(135deg, rgba(103, 76, 220, 0.06) 0%, rgba(90, 62, 201, 0.06) 100%);
+          color: #674cdc;
+          border-left-color: #674cdc;
+          padding-left: 1.25rem;
+        }
+
+        .submenu-item-icon {
+          font-size: 1rem;
+          transition: transform 0.2s ease;
+        }
+
+        .submenu-item:hover .submenu-item-icon {
+          transform: scale(1.1);
+        }
+
+        .dropdown-divider {
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(103, 76, 220, 0.15), transparent);
+          margin: 0.25rem 0;
+        }
+
+        /* Contact Button */
         .contact-btn {
           position: relative;
           font-family: 'Inter', sans-serif;
@@ -160,6 +365,7 @@ export default function Header({ onOpenContact = () => {} }) {
           color: #674cdc;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           overflow: hidden;
+          cursor: pointer;
         }
 
         .contact-btn::before {
@@ -267,6 +473,7 @@ export default function Header({ onOpenContact = () => {} }) {
           border-left: 3px solid transparent;
           position: relative;
           overflow: hidden;
+          cursor: pointer;
         }
 
         .mobile-nav-link::before {
@@ -291,7 +498,65 @@ export default function Header({ onOpenContact = () => {} }) {
           padding-left: 1.25rem;
         }
 
-        /* Header Border Animation - White */
+        /* Mobile Submenu */
+        .mobile-submenu {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease;
+        }
+
+        .mobile-submenu.open {
+          max-height: 400px;
+        }
+
+        .mobile-submenu-item {
+          font-family: 'Inter', sans-serif;
+          font-size: 0.9375rem;
+          padding: 0.75rem 1rem 0.75rem 2rem;
+          color: rgba(255, 255, 255, 0.9);
+          transition: all 0.25s ease;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+        }
+
+        .mobile-submenu-item:hover {
+          background: rgba(255, 255, 255, 0.15);
+          color: white;
+          padding-left: 2.5rem;
+        }
+
+        /* Mobile Level 3 Submenu */
+        .mobile-platform-submenu {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease;
+        }
+
+        .mobile-platform-submenu.open {
+          max-height: 300px;
+        }
+
+        .mobile-platform-item {
+          font-family: 'Inter', sans-serif;
+          font-size: 0.875rem;
+          padding: 0.625rem 1rem 0.625rem 3.5rem;
+          color: rgba(255, 255, 255, 0.85);
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          cursor: pointer;
+        }
+
+        .mobile-platform-item:hover {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          padding-left: 4rem;
+        }
+
+        /* Header Border Animation */
         .header-border {
           position: absolute;
           bottom: 0;
@@ -355,7 +620,7 @@ export default function Header({ onOpenContact = () => {} }) {
             {/* Logo Section */}
             <div 
               onClick={() => handleNavClick("home")}
-              className="logo-container flex items-center gap-3 cursor-pointer"
+              className="logo-container flex items-center gap-3"
             >
               <img 
                 src={logo} 
@@ -376,12 +641,69 @@ export default function Header({ onOpenContact = () => {} }) {
                 Trang Chủ
               </button>
               
-              <button
-                onClick={() => handleNavClick("services")}
-                className="nav-link text-gray-100"
-              >
-                Sàn Giao Dịch
-              </button>
+              {/* Dropdown Menu - Sàn Giao Dịch with PURE CSS HOVER */}
+              <div className="services-dropdown">
+                <button
+                  className="nav-link text-gray-100 dropdown-toggle"
+                >
+                  Sàn Giao Dịch
+                  <span className="dropdown-arrow">▼</span>
+                </button>
+                
+                <div className="dropdown-menu">
+                  {/* Forex with Submenu */}
+                  <div className="dropdown-item-wrapper">
+                    <div className="dropdown-item">
+                      <div className="dropdown-item-content">
+                        <span className="dropdown-item-icon">💱</span>
+                        <span>Forex</span>
+                      </div>
+                      <span className="dropdown-item-arrow">▶</span>
+                    </div>
+                    
+                    {/* Forex Platforms Submenu */}
+                    <div className="submenu">
+                      {forexPlatforms.map((platform, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handlePlatformClick('forex', platform.name)}
+                          className="submenu-item"
+                        >
+                          <span className="submenu-item-icon">{platform.icon}</span>
+                          <span>{platform.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="dropdown-divider"></div>
+                  
+                  {/* Crypto with Submenu */}
+                  <div className="dropdown-item-wrapper">
+                    <div className="dropdown-item">
+                      <div className="dropdown-item-content">
+                        <span className="dropdown-item-icon">₿</span>
+                        <span>Crypto</span>
+                      </div>
+                      <span className="dropdown-item-arrow">▶</span>
+                    </div>
+                    
+                    {/* Crypto Platforms Submenu */}
+                    <div className="submenu">
+                      {cryptoPlatforms.map((platform, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handlePlatformClick('crypto', platform.name)}
+                          className="submenu-item"
+                        >
+                          <span className="submenu-item-icon">{platform.icon}</span>
+                          <span>{platform.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
               
               <button
                 onClick={goNews}
@@ -427,12 +749,72 @@ export default function Header({ onOpenContact = () => {} }) {
                 Trang Chủ
               </button>
               
-              <button
-                onClick={() => handleNavClick("services")}
-                className="mobile-nav-link w-full text-left px-4 py-3.5 text-gray-100 rounded-lg"
-              >
-                Sàn Giao Dịch
-              </button>
+              {/* Mobile Dropdown - Sàn Giao Dịch */}
+              <div>
+                <button
+                  onClick={() => setIsServicesOpen(!isServicesOpen)}
+                  className="mobile-nav-link w-full text-left px-4 py-3.5 text-gray-100 rounded-lg flex items-center justify-between"
+                >
+                  <span>Sàn Giao Dịch</span>
+                  <span className={`dropdown-arrow text-xs ${isServicesOpen ? 'open' : ''}`}>▼</span>
+                </button>
+                
+                <div className={`mobile-submenu ${isServicesOpen ? 'open' : ''}`}>
+                  {/* Forex Mobile Submenu */}
+                  <div>
+                    <button
+                      onClick={() => setMobileForexOpen(!mobileForexOpen)}
+                      className="mobile-submenu-item w-full text-left"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>💱</span>
+                        <span>Forex</span>
+                      </div>
+                      <span className={`dropdown-arrow text-xs ${mobileForexOpen ? 'open' : ''}`}>▼</span>
+                    </button>
+                    
+                    <div className={`mobile-platform-submenu ${mobileForexOpen ? 'open' : ''}`}>
+                      {forexPlatforms.map((platform, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handlePlatformClick('forex', platform.name)}
+                          className="mobile-platform-item w-full text-left"
+                        >
+                          <span>{platform.icon}</span>
+                          <span>{platform.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Crypto Mobile Submenu */}
+                  <div>
+                    <button
+                      onClick={() => setMobileCryptoOpen(!mobileCryptoOpen)}
+                      className="mobile-submenu-item w-full text-left"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>₿</span>
+                        <span>Crypto</span>
+                      </div>
+                      <span className={`dropdown-arrow text-xs ${mobileCryptoOpen ? 'open' : ''}`}>▼</span>
+                    </button>
+                    
+                    <div className={`mobile-platform-submenu ${mobileCryptoOpen ? 'open' : ''}`}>
+                      {cryptoPlatforms.map((platform, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handlePlatformClick('crypto', platform.name)}
+                          className="mobile-platform-item w-full text-left"
+                        >
+                          <span>{platform.icon}</span>
+                          <span>{platform.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
               
               <button
                 onClick={goNews}

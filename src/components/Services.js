@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import { Copy, X, Sparkles, TrendingUp, Zap, Video } from "lucide-react";
+import { Copy, X, Sparkles, TrendingUp, Zap, Video, Gift } from "lucide-react";
 import toast from "react-hot-toast";
 import './styles.css';
 
@@ -10,6 +10,12 @@ const Services = () => {
   const [activeTab, setActiveTab] = useState("all");
   
   const [showVideo, setShowVideo] = useState(false);
+  const [showVoucherPopup, setShowVoucherPopup] = useState(false);
+  const [voucherForm, setVoucherForm] = useState({
+    uid: "",
+    partnerName: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Generate floating particles
 
@@ -217,14 +223,15 @@ const Services = () => {
       cashback: "25",
       code: "maohoanphi",
       imgSrc: "https://cashback.exchange/image/exchanges/atx.png",
-      link: "https://atxs.io/r/maohoanphi", 
+      link: "https://atxs.io/r/maohoanphi",
+      voucherLink: "https://atxs.io/voucher/maohoanphi", // Link voucher ATX
     },
     {
       title: "BINGX",
       cashback: "50",
       code: "KSFN28VY",
       imgSrc: "https://w.ladicdn.com/s500x500/67dbe0216346bb0012ce3b79/bingx-20250426193224-ombgf.png",
-      link: "https://bingxdao.com/invite/YFTFX3BC/", 
+      link: "https://bingxdao.com/invite/YFTFX3BC/",
     },
     {
       title: "BINANCE",
@@ -250,7 +257,7 @@ const Services = () => {
       cashback: "40",
       code: "mexc-Maohoanphi",
       imgSrc: "https://storage.googleapis.com/hostinger-horizons-assets-prod/67304ce5-101c-4405-85e6-f9fde8774dbc/ab59a24e551de4d38fbbb5bb557601d6.png",
-      link: "https://www.mexc.com/vi-VN/acquisition/custom-sign-up?shareCode=mexc-Maohoanphi", 
+      link: "https://www.mexc.com/vi-VN/acquisition/custom-sign-up?shareCode=mexc-Maohoanphi",
     },
   ];
 
@@ -292,6 +299,48 @@ const Services = () => {
     navigator.clipboard.writeText(text)
       .then(() => toast.success(`✅ Đã copy mã: ${text}`))
       .catch(() => toast.error("❌ Copy lỗi, thử lại!"));
+  };
+
+  const handleVoucherSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validation
+    if (!voucherForm.uid.trim() || !voucherForm.partnerName.trim()) {
+      toast.error("❌ Vui lòng điền đầy đủ thông tin!");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Thay YOUR_GOOGLE_SCRIPT_URL bằng URL Google Apps Script của bạn
+      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwgCIYovdhDvH8KWgXY7r4JzA8J4tRtstcT0_ZGoivqBjprQfnhgIy-bNCTok_GUo4uyQ/exec";
+      
+      const formData = new FormData();
+      formData.append("uid", voucherForm.uid);
+      formData.append("partnerName", voucherForm.partnerName);
+      formData.append("timestamp", new Date().toLocaleString("vi-VN"));
+      
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.status === "success") {
+        toast.success("✅ Gửi thành công! Voucher sẽ được cấp trong 1-2h.");
+        setShowVoucherPopup(false);
+        setVoucherForm({ uid: "", partnerName: "" });
+      } else {
+        toast.error("❌ Gửi thất bại! Vui lòng thử lại.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("❌ Gửi thất bại! Vui lòng thử lại.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -419,19 +468,52 @@ const Services = () => {
                 {item.title}
               </h4>
 
-              {/* Register Button */}
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-gradient-to-r from-slate-800 to-slate-900 text-white px-3 py-2.5 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 hover:from-slate-700 hover:to-slate-800 transition-all duration-300 w-full mb-3 text-center relative overflow-hidden group/btn"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-1">
-                  <Zap className="w-4 h-4" />
-                  Đăng ký
-                </span>
-                <span className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-500/20 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left"></span>
-              </a>
+              {/* Action Buttons - Conditional layout based on voucher availability */}
+              {item.voucherLink ? (
+                // ATX: Two buttons side by side
+                <div className="grid grid-cols-2 gap-2 mb-3">
+                  {/* Register Button */}
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block bg-gradient-to-r from-slate-800 to-slate-900 text-white px-3 py-2.5 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 hover:from-slate-700 hover:to-slate-800 transition-all duration-300 text-center relative overflow-hidden group/btn"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-1">
+                      <Zap className="w-4 h-4" />
+                      Đăng ký
+                    </span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-500/20 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left"></span>
+                  </a>
+
+                  {/* Voucher Button */}
+                  <button
+                    type="button"
+                    onClick={() => setShowVoucherPopup(true)}
+                    className="block bg-gradient-to-r from-amber-500 to-orange-500 text-white px-3 py-2.5 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 hover:from-amber-600 hover:to-orange-600 transition-all duration-300 text-center relative overflow-hidden group/voucher w-full"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-1">
+                      <Gift className="w-4 h-4" />
+                      Voucher
+                    </span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-yellow-300/30 to-orange-300/30 transform scale-x-0 group-hover/voucher:scale-x-100 transition-transform origin-left"></span>
+                  </button>
+                </div>
+              ) : (
+                // Other exchanges: Single full-width register button
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-gradient-to-r from-slate-800 to-slate-900 text-white px-3 py-2.5 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 hover:from-slate-700 hover:to-slate-800 transition-all duration-300 w-full mb-3 text-center relative overflow-hidden group/btn"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-1">
+                    <Zap className="w-4 h-4" />
+                    Đăng ký
+                  </span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-500/20 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left"></span>
+                </a>
+              )}
 
               {/* Code Info */}
               <div className="text-xs text-slate-600 bg-slate-50 rounded-lg p-2.5 mb-3 border border-slate-100">
@@ -733,6 +815,113 @@ const Services = () => {
                 Đóng
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Voucher Popup */}
+      {showVoucherPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-slideUp border-2 border-slate-200 relative z-10">
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b-2 bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 text-white relative overflow-hidden">
+              <div className="shimmer-overlay"></div>
+              <div className="flex items-center gap-3 relative z-10">
+                <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/30 backdrop-blur-sm text-white font-bold text-lg shadow-lg animate-pulse-slow">
+                  <Gift className="w-6 h-6" />
+                </div>
+                <h2 className="text-xl font-bold tracking-tight">
+                  Yêu cầu Voucher ATX
+                </h2>
+              </div>
+              <button
+                className="p-2 rounded-full hover:bg-white/30 transition-all active:scale-95 hover:rotate-90 duration-300 relative z-10"
+                onClick={() => {
+                  setShowVoucherPopup(false);
+                  setVoucherForm({ uid: "", partnerName: "" });
+                }}
+                aria-label="Đóng"
+              >
+                <X size={24} className="text-white" />
+              </button>
+            </div>
+
+            {/* Body - Form */}
+            <form onSubmit={handleVoucherSubmit} className="px-6 py-6">
+              {/* UID Input */}
+              <div className="mb-4">
+                <label htmlFor="uid" className="block text-sm font-semibold text-slate-700 mb-2">
+                  UID <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="uid"
+                  value={voucherForm.uid}
+                  onChange={(e) => setVoucherForm({ ...voucherForm, uid: e.target.value })}
+                  placeholder="Nhập UID của bạn"
+                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 focus:outline-none transition-all font-medium text-slate-700 bg-white"
+                  required
+                />
+              </div>
+
+              {/* Partner Name Input */}
+              <div className="mb-4">
+                <label htmlFor="partnerName" className="block text-sm font-semibold text-slate-700 mb-2">
+                  Tên đối tác của bạn<span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="partnerName"
+                  value={voucherForm.partnerName}
+                  onChange={(e) => setVoucherForm({ ...voucherForm, partnerName: e.target.value })}
+                  placeholder="Nhập tên đối tác"
+                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 focus:outline-none transition-all font-medium text-slate-700 bg-white"
+                  required
+                />
+              </div>
+
+              {/* Notice */}
+              <div className="mb-6 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-lg">
+                <p className="text-sm text-slate-700 leading-relaxed">
+                  <span className="font-semibold text-amber-700">📌 Lưu ý:</span> Voucher sẽ được cấp trong vòng <span className="font-bold text-amber-700">1ph-2 giờ</span> sau khi gửi yêu cầu hoàn tất.
+                </p>
+              </div>
+
+              {/* Footer Buttons */}
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowVoucherPopup(false);
+                    setVoucherForm({ uid: "", partnerName: "" });
+                  }}
+                  className="flex-1 px-6 py-3 rounded-lg font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-all duration-300 active:scale-95 shadow-sm"
+                  disabled={isSubmitting}
+                >
+                  Hủy
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Đang gửi...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-4 h-4" />
+                      Gửi yêu cầu
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

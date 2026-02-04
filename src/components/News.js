@@ -145,7 +145,7 @@ const News = () => (
     </div>
 
     {/* Custom Styles */}
-    <style jsx>{`
+    <style>{`
       /* Custom Pagination Styles */
       .custom-pagination {
         position: relative;

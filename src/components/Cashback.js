@@ -373,7 +373,7 @@ const Cashback = () => (
       </section>
 
       {/* Enhanced CSS Styles */}
-    <style jsx>{`
+    <style >{`
       @keyframes fadeInUp {
         from {
           opacity: 0;

@@ -1,0 +1,350 @@
+/* components/NewsPopup.css */
+.news-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 20px;
+}
+
+.news-popup-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.news-popup {
+  background: white;
+  border-radius: 16px;
+  max-width: 380px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.news-popup.active {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* ATX Popup - Purple Theme */
+.atx-popup {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.hot-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+  animation: pulse 2s ease-in-out infinite;
+  z-index: 10;
+  text-transform: uppercase;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.news-popup-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: white;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.news-popup-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.news-popup-content {
+  padding: 40px 24px 24px;
+  text-align: center;
+}
+
+.atx-logo-container {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 14px;
+  background: white;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.atx-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.news-popup-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.atx-highlight-box {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  backdrop-filter: blur(10px);
+}
+
+.news-popup-body {
+  margin-bottom: 16px;
+}
+
+.atx-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.atx-features-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.atx-features-list li:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(3px);
+}
+
+.feature-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  flex: 1;
+}
+
+.feature-text strong {
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.feature-text span {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+}
+
+.referral-code-box {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.code-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.code-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.code-text {
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  font-family: 'Courier New', monospace;
+}
+
+.code-copy-btn {
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.code-copy-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.code-copy-btn:active {
+  transform: scale(0.95);
+}
+
+.atx-note {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.news-popup-actions {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.news-popup-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.atx-register-btn {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.atx-register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255, 255, 255, 0.4);
+}
+
+.atx-register-btn:active {
+  transform: translateY(0);
+}
+
+.news-popup-btn.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+}
+
+.news-popup-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .news-popup {
+    max-width: 90%;
+    margin: 16px;
+  }
+
+  .news-popup-content {
+    padding: 36px 20px 20px;
+  }
+
+  .news-popup-title {
+    font-size: 18px;
+  }
+
+  .atx-logo-container {
+    width: 60px;
+    height: 60px;
+  }
+}
